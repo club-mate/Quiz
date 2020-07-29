@@ -8,6 +8,10 @@
 
 ![Quiz Skizze mit Swing](skizze_quiz_swing.png)
 
+## MVC Skizze
+
+![MVC](mvc.png)
+
 # To-do
-- [ ] MVC Skizze
+
 - [ ] Klassendiagramm
