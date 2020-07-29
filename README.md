@@ -14,8 +14,23 @@
 - [x] MVC
 - [x] Swing
 
+## Projekt
+
+[https://github.com/users/club-mate/projects/1](https://github.com/users/club-mate/projects/1)
+
+## Doku
+
+[https://github.com/club-mate/Quiz/tree/master/docs](https://github.com/club-mate/Quiz/tree/master/docs)
+
 ## Klonen
 * Clone this repo to your local machine using 
 ```bash 
 git clone https://github.com/club-mate/Quiz
 ```
+## Mitmachen
+
+[https://github.com/club-mate/Quiz/tree/master/contribute.md](https://github.com/club-mate/Quiz/tree/master/contribute.md)
+
+## Lizenz
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
+* [MIT licence](http://opensource.org/licenses/mit-license.php)
