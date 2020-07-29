@@ -15,5 +15,6 @@
 - [x] Swing
 
 ## Klonen
-* Clone this repo to your local machine using > git clone https://github.com/club-mate/Quiz
+* Clone this repo to your local machine using 
+```bash git clone https://github.com/club-mate/Quiz
 
