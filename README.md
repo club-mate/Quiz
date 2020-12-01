@@ -2,7 +2,7 @@
 
 > Wissensquiz mit Java Swing UI (MVC), 2 Spieler Modus, Spielständen und QuizFragen, welchen in Textdateien gespeichert werden. Quizfragen sollen in einem Editor bearbeitet werden können. (Nice to Have: Quizfragen im JSON Format)
 
-[![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) 
+<!-- [![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) -->
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
 
 ![MVC](docs/mvc.png)
