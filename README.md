@@ -7,6 +7,10 @@
 
 ![MVC](docs/mvc.png)
 
+## Klassendiagramm
+
+![Klassendiagramm](docs/Klassendiagramm.png)
+
 ## In diesem Projekt behandelte Themen
 
 - [x] OOP Java
