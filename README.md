@@ -10,6 +10,7 @@
 ## Klassendiagramm
 
 ![Klassendiagramm](docs/Klassendiagramm.png)
+made with [https://github.com/KDE/umbrello](https://github.com/KDE/umbrello)
 
 ## In diesem Projekt behandelte Themen
 
