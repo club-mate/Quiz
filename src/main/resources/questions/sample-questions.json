@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "question": "What is the capital of France?",
+    "options": [
+      "London",
+      "Berlin",
+      "Paris",
+      "Madrid"
+    ],
+    "correctAnswerIndex": 2,
+    "difficulty": "easy",
+    "category": "Geography"
+  },
+  {
+    "id": 2,
+    "question": "What is 7 * 8?",
+    "options": [
+      "52",
+      "54",
+      "56",
+      "58"
+    ],
+    "correctAnswerIndex": 2,
+    "difficulty": "easy",
+    "category": "Mathematics"
+  },
+  {
+    "id": 3,
+    "question": "In what year did World War II end?",
+    "options": [
+      "1943",
+      "1944",
+      "1945",
+      "1946"
+    ],
+    "correctAnswerIndex": 2,
+    "difficulty": "medium",
+    "category": "History"
+  },
+  {
+    "id": 4,
+    "question": "Which planet is closest to the Sun?",
+    "options": [
+      "Venus",
+      "Mercury",
+      "Earth",
+      "Mars"
+    ],
+    "correctAnswerIndex": 1,
+    "difficulty": "easy",
+    "category": "Science"
+  },
+  {
+    "id": 5,
+    "question": "Who wrote 'Hamlet'?",
+    "options": [
+      "Christopher Marlowe",
+      "William Shakespeare",
+      "Ben Jonson",
+      "John Fletcher"
+    ],
+    "correctAnswerIndex": 1,
+    "difficulty": "medium",
+    "category": "Literature"
+  }
+]
