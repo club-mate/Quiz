@@ -30,9 +30,32 @@ made with [https://github.com/KDE/umbrello](https://github.com/KDE/umbrello)
 
 [https://github.com/club-mate/Quiz/tree/master/docs](https://github.com/club-mate/Quiz/tree/master/docs)
 
+## Quick Start
+
+### Prerequisites
+- Java 11 or higher
+- Maven 3.6.0 or higher
+
+### Build and Run
+```bash
+# Clone the repository
+git clone https://github.com/club-mate/Quiz
+
+# Navigate to project directory
+cd Quiz
+
+# Build the project
+mvn clean package
+
+# Run the application
+java -jar target/quiz-app-fat-1.0.0.jar
+```
+
+For detailed build instructions, see [BUILD.md](BUILD.md)
+
 ## Klonen
-* Clone this repo to your local machine using 
-```bash 
+* Clone this repo to your local machine using
+```bash
 git clone https://github.com/club-mate/Quiz
 ```
 ## Mitmachen
