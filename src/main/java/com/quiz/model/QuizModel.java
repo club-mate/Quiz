@@ -2,300 +2,192 @@ package com.quiz.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
- * Core model class that manages the quiz game state.
- *
- * This class maintains the quiz questions, players, current game state, and provides
- * methods for game flow control such as progressing through questions and switching
- * between players.
+ * Central model for the Quiz application.
+ * Manages game state and provides interface for the controller.
  */
 public class QuizModel {
-    private List<Question> questions;
-    private List<Player> players;
-    private int currentQuestionIndex;
-    private int currentPlayerIndex;
-    private boolean gameActive;
+    private QuizGame game;
+    private List<ModelObserver> observers;
 
     /**
-     * Constructs an empty QuizModel.
+     * Interface for observers to listen to model changes.
+     */
+    public interface ModelObserver {
+        void modelChanged();
+    }
+
+    /**
+     * Constructor for QuizModel.
      */
     public QuizModel() {
-        this.questions = new ArrayList<>();
-        this.players = new ArrayList<>();
-        this.currentQuestionIndex = 0;
-        this.currentPlayerIndex = 0;
-        this.gameActive = false;
+        this.observers = new ArrayList<>();
     }
 
     /**
-     * Constructs a QuizModel with questions and players.
+     * Initialize a new game with two players.
      *
-     * @param questions list of quiz questions
-     * @param players list of players
+     * @param player1Name Name of player 1
+     * @param player1NetName Network name of player 1
+     * @param player2Name Name of player 2
+     * @param player2NetName Network name of player 2
      */
-    public QuizModel(List<Question> questions, List<Player> players) {
-        this.questions = new ArrayList<>(questions);
-        this.players = new ArrayList<>(players);
-        this.currentQuestionIndex = 0;
-        this.currentPlayerIndex = 0;
-        this.gameActive = false;
+    public void initializeGame(String player1Name, String player1NetName,
+                                String player2Name, String player2NetName) {
+        Player p1 = new Player(player1Name, player1NetName);
+        Player p2 = new Player(player2Name, player2NetName);
+        this.game = new QuizGame(p1, p2);
+        notifyObservers();
     }
 
     /**
-     * Starts a new game with current questions and players.
+     * Get the current game state.
      *
-     * @return true if game started successfully, false if no questions or players
+     * @return The QuizGame instance
      */
-    public boolean startGame() {
-        if (questions.isEmpty() || players.isEmpty()) {
-            return false;
-        }
-        resetGameState();
-        gameActive = true;
-        return true;
+    public QuizGame getGame() {
+        return game;
     }
 
     /**
-     * Ends the current game.
-     */
-    public void endGame() {
-        gameActive = false;
-    }
-
-    /**
-     * Checks if the game is currently active.
+     * Get the current player.
      *
-     * @return true if game is active, false otherwise
-     */
-    public boolean isGameActive() {
-        return gameActive;
-    }
-
-    /**
-     * Resets game state for a new game.
-     */
-    public void resetGameState() {
-        currentQuestionIndex = 0;
-        currentPlayerIndex = 0;
-        players.forEach(Player::resetScore);
-    }
-
-    /**
-     * Gets the current question.
-     *
-     * @return the current question, or null if index is invalid
-     */
-    public Question getCurrentQuestion() {
-        if (currentQuestionIndex < 0 || currentQuestionIndex >= questions.size()) {
-            return null;
-        }
-        return questions.get(currentQuestionIndex);
-    }
-
-    /**
-     * Gets the current player.
-     *
-     * @return the current player, or null if index is invalid
+     * @return The current player
      */
     public Player getCurrentPlayer() {
-        if (currentPlayerIndex < 0 || currentPlayerIndex >= players.size()) {
-            return null;
-        }
-        return players.get(currentPlayerIndex);
+        if (game == null) return null;
+        return game.getCurrentPlayer();
     }
 
     /**
-     * Processes a player's answer to the current question.
+     * Get a random question from a specific category.
      *
-     * @param answerIndex the index of the selected answer
-     * @return true if the answer was correct, false otherwise
+     * @param category The category name
+     * @return A random question from the category, or null if no questions exist
      */
-    public boolean answerQuestion(int answerIndex) {
-        if (!gameActive) {
-            return false;
+    public Question getRandomQuestion(String category) {
+        List<Question> questions = game.getQuestionsForCategory(category);
+        if (questions.isEmpty()) {
+            return null;
+        }
+        int randomIndex = (int) (Math.random() * questions.size());
+        return questions.get(randomIndex);
+    }
+
+    /**
+     * Process an answer submitted by the current player.
+     *
+     * @param question The question being answered
+     * @param answerIndex The index of the selected answer
+     * @return true if the answer is correct, false otherwise
+     */
+    public boolean submitAnswer(Question question, int answerIndex) {
+        boolean isCorrect = question.isCorrectAnswer(answerIndex);
+
+        if (!isCorrect) {
+            game.getCurrentPlayer().decreaseScore();
         }
 
-        Question question = getCurrentQuestion();
-        Player player = getCurrentPlayer();
-
-        if (question == null || player == null) {
-            return false;
-        }
-
-        if (!question.isValidAnswerIndex(answerIndex)) {
-            return false;
-        }
-
-        boolean isCorrect = question.isAnswerCorrect(answerIndex);
-        if (isCorrect) {
-            player.recordCorrectAnswer();
-        } else {
-            player.recordIncorrectAnswer();
-        }
-
+        notifyObservers();
         return isCorrect;
     }
 
     /**
-     * Moves to the next question.
-     *
-     * @return true if there are more questions, false if quiz is complete
+     * Switch to the next player's turn.
      */
-    public boolean nextQuestion() {
-        currentQuestionIndex++;
-        return currentQuestionIndex < questions.size();
+    public void nextTurn() {
+        game.switchPlayer();
+        notifyObservers();
     }
 
     /**
-     * Checks if there are more questions.
+     * Check if the game is over.
      *
-     * @return true if there are more questions after current one
+     * @return true if one player has been eliminated
      */
-    public boolean hasNextQuestion() {
-        return currentQuestionIndex + 1 < questions.size();
+    public boolean isGameOver() {
+        return game != null && game.isGameOver();
     }
 
     /**
-     * Moves to the next player (for multiplayer mode).
+     * Get the winner of the game.
      *
-     * @return true if there are more players, false if all players completed
-     */
-    public boolean nextPlayer() {
-        currentPlayerIndex++;
-        if (currentPlayerIndex >= players.size()) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Gets the winner of the game (player with highest score).
-     *
-     * @return the player with the highest score, or null if no players
+     * @return The winning player, or null if game is not over
      */
     public Player getWinner() {
-        if (players.isEmpty()) {
-            return null;
-        }
-        return players.stream()
-                .max((p1, p2) -> Integer.compare(p1.getScore(), p2.getScore()))
-                .orElse(null);
+        if (game == null) return null;
+        return game.getWinner();
     }
 
     /**
-     * Gets a sorted list of players by score (highest first).
+     * Add a question to the game.
      *
-     * @return list of players sorted by score in descending order
+     * @param category The category of the question
+     * @param question The question to add
      */
-    public List<Player> getPlayersByScore() {
-        List<Player> sorted = new ArrayList<>(players);
-        sorted.sort((p1, p2) -> Integer.compare(p2.getScore(), p1.getScore()));
-        return sorted;
-    }
-
-    /**
-     * Checks if all players are eliminated.
-     *
-     * @return true if all players have no lives left
-     */
-    public boolean allPlayersEliminated() {
-        return players.stream().allMatch(Player::isEliminated);
-    }
-
-    /**
-     * Gets the number of remaining active players.
-     *
-     * @return count of players with lives remaining
-     */
-    public int getActivePlayerCount() {
-        return (int) players.stream()
-                .filter(p -> !p.isEliminated())
-                .count();
-    }
-
-    // Getters and Setters
-
-    public List<Question> getQuestions() {
-        return new ArrayList<>(questions);
-    }
-
-    public void setQuestions(List<Question> questions) {
-        this.questions = new ArrayList<>(questions);
-        this.currentQuestionIndex = 0;
-    }
-
-    public void addQuestion(Question question) {
-        this.questions.add(question);
-    }
-
-    public List<Player> getPlayers() {
-        return new ArrayList<>(players);
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = new ArrayList<>(players);
-        this.currentPlayerIndex = 0;
-    }
-
-    public void addPlayer(Player player) {
-        this.players.add(player);
-    }
-
-    public int getCurrentQuestionIndex() {
-        return currentQuestionIndex;
-    }
-
-    public void setCurrentQuestionIndex(int index) {
-        if (index >= 0 && index < questions.size()) {
-            this.currentQuestionIndex = index;
+    public void addQuestion(String category, Question question) {
+        if (game != null) {
+            game.addQuestion(category, question);
+            notifyObservers();
         }
     }
 
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
+    /**
+     * Get all questions for a category.
+     *
+     * @param category The category name
+     * @return List of questions in the category
+     */
+    public List<Question> getQuestionsForCategory(String category) {
+        if (game == null) return new ArrayList<>();
+        return game.getQuestionsForCategory(category);
     }
 
-    public void setCurrentPlayerIndex(int index) {
-        if (index >= 0 && index < players.size()) {
-            this.currentPlayerIndex = index;
+    /**
+     * Get all question categories.
+     *
+     * @return Array of category names
+     */
+    public String[] getCategories() {
+        if (game == null) return new String[0];
+        return game.getCategories();
+    }
+
+    /**
+     * Register an observer to listen to model changes.
+     *
+     * @param observer The observer to register
+     */
+    public void addObserver(ModelObserver observer) {
+        observers.add(observer);
+    }
+
+    /**
+     * Unregister an observer.
+     *
+     * @param observer The observer to unregister
+     */
+    public void removeObserver(ModelObserver observer) {
+        observers.remove(observer);
+    }
+
+    /**
+     * Notify all observers of model changes.
+     */
+    private void notifyObservers() {
+        for (ModelObserver observer : observers) {
+            observer.modelChanged();
         }
     }
 
-    public int getTotalQuestions() {
-        return questions.size();
-    }
-
-    public int getTotalPlayers() {
-        return players.size();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        QuizModel quizModel = (QuizModel) o;
-        return currentQuestionIndex == quizModel.currentQuestionIndex &&
-               currentPlayerIndex == quizModel.currentPlayerIndex &&
-               gameActive == quizModel.gameActive &&
-               Objects.equals(questions, quizModel.questions) &&
-               Objects.equals(players, quizModel.players);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(questions, players, currentQuestionIndex, currentPlayerIndex, gameActive);
-    }
-
-    @Override
-    public String toString() {
-        return "QuizModel{" +
-                "questions=" + questions.size() +
-                ", players=" + players.size() +
-                ", currentQuestionIndex=" + currentQuestionIndex +
-                ", currentPlayerIndex=" + currentPlayerIndex +
-                ", gameActive=" + gameActive +
-                '}';
+    /**
+     * Reset the game.
+     */
+    public void resetGame() {
+        if (game != null) {
+            game.reset();
+            notifyObservers();
+        }
     }
 }
