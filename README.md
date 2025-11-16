@@ -1,67 +1,159 @@
-# Quiz
+# Quiz Application
 
-> Wissensquiz mit Java Swing UI (MVC), 2 Spieler Modus, Spielständen und QuizFragen, welchen in Textdateien gespeichert werden. Quizfragen sollen in einem Editor bearbeitet werden können. (Nice to Have: Quizfragen im JSON Format)
+> A comprehensive Java Swing-based quiz game with MVC architecture, two-player mode, score tracking, and quiz question management. Supports editing quiz questions and storing them in text and JSON formats.
 
-<!-- [![Build Status](http://img.shields.io/travis/badges/badgerbadgerbadger.svg?style=flat-square)](https://travis-ci.org/badges/badgerbadgerbadger) -->
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Java 11+](https://img.shields.io/badge/Java-11%2B-orange.svg)](https://www.oracle.com/java/)
+[![Maven](https://img.shields.io/badge/Maven-3.6.0%2B-blue.svg)](https://maven.apache.org/)
 
-![MVC](docs/mvc.png)
+## Overview
 
-## Klassendiagramm
+Quiz is an educational Java desktop application designed to demonstrate professional software development practices and design patterns. It features a complete quiz game experience with:
 
-![Klassendiagramm](docs/Klassendiagramm.png)
+- **Two-Player Mode**: Competitive quiz experience for multiple players
+- **Score Tracking**: Persistent score tracking and game history
+- **Quiz Management**: Built-in editor for creating and managing quiz questions
+- **Multiple Storage Formats**: Support for text and JSON formats
+- **MVC Architecture**: Clean separation of concerns using the Model-View-Controller pattern
+- **User-Friendly UI**: Professional Java Swing-based graphical interface
 
-made with [https://github.com/KDE/umbrello](https://github.com/KDE/umbrello)
+## Architecture
 
-## In diesem Projekt behandelte Themen
+### MVC Pattern
 
-- [x] OOP Java
-- [x] UML
-- [x] Collections
-- [x] File / Buffer
-- [x] MVC
-- [x] Swing
+![MVC Architecture](docs/mvc.png)
 
-## Projekt
+The application follows the MVC (Model-View-Controller) pattern to maintain clean code organization:
+- **Model**: Manages quiz data, questions, players, and scores
+- **View**: Java Swing UI components for user interaction
+- **Controller**: Handles user input and coordinates between model and view
 
-[https://github.com/users/club-mate/projects/1](https://github.com/users/club-mate/projects/1)
+### Class Diagram
 
-## Doku
+![Class Diagram](docs/Klassendiagramm.png)
 
-[https://github.com/club-mate/Quiz/tree/master/docs](https://github.com/club-mate/Quiz/tree/master/docs)
+*Class diagram created with [Umbrello UML Editor](https://github.com/KDE/umbrello)*
 
-## Quick Start
+## Key Topics and Technologies
+
+This project demonstrates the following concepts and technologies:
+
+- [x] Object-Oriented Programming (OOP) with Java
+- [x] UML Design and Class Diagrams
+- [x] Collections Framework (List, Map, Set)
+- [x] File I/O and Stream Processing
+- [x] Model-View-Controller (MVC) Architecture
+- [x] Java Swing GUI Framework
+- [x] JSON Processing
+- [x] Exception Handling
+- [x] Software Design Patterns
+
+## Getting Started
 
 ### Prerequisites
-- Java 11 or higher
-- Maven 3.6.0 or higher
 
-### Build and Run
+- **Java**: JDK 11 or higher
+- **Maven**: 3.6.0 or higher
+
+### Quick Start
+
 ```bash
 # Clone the repository
 git clone https://github.com/club-mate/Quiz
-
-# Navigate to project directory
 cd Quiz
 
 # Build the project
 mvn clean package
 
 # Run the application
-java -jar target/quiz-app-fat-1.0.0.jar
+java -jar target/quiz-app-1.0.0.jar
 ```
 
-For detailed build instructions, see [BUILD.md](BUILD.md)
+### Detailed Build Instructions
 
-## Klonen
-* Clone this repo to your local machine using
-```bash
-git clone https://github.com/club-mate/Quiz
+For comprehensive build instructions, compilation options, and troubleshooting, please refer to [BUILD.md](BUILD.md).
+
+## Project Structure
+
 ```
-## Mitmachen
+Quiz/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       └── com/quiz/
+│   │           ├── model/       # Data models and business logic
+│   │           ├── view/        # Swing UI components
+│   │           └── controller/  # User input handling
+│   └── test/
+│       └── java/               # Unit tests
+├── docs/                        # Documentation and diagrams
+├── pom.xml                      # Maven configuration
+├── BUILD.md                     # Detailed build instructions
+├── CONTRIBUTING.md              # Contribution guidelines
+├── CODE_OF_CONDUCT.md          # Code of conduct
+└── README.md                    # This file
+```
 
-[https://github.com/club-mate/Quiz/tree/master/contribute.md](https://github.com/club-mate/Quiz/tree/master/contribute.md)
+## Documentation
 
-## Lizenz
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org) 
-* [MIT licence](http://opensource.org/licenses/mit-license.php)
+- **[BUILD.md](BUILD.md)** - Detailed build and compilation instructions
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** - System architecture and design decisions
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines for developers
+- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community standards and conduct
+- **[SUPPORT.md](SUPPORT.md)** - Support channels and resources
+
+## Usage
+
+### Playing the Quiz
+
+1. Launch the application
+2. Create or load a quiz file (text or JSON format)
+3. Invite a second player
+4. Start the quiz and answer questions
+5. View final scores and statistics
+
+### Creating Quiz Questions
+
+Use the built-in quiz editor to:
+- Add new questions and answers
+- Define correct answers
+- Manage question categories
+- Export/import quiz files
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- How to report bugs
+- How to suggest features
+- How to submit pull requests
+- Code style and standards
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+```
+MIT License
+
+Copyright (c) 2024 club-mate
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
+## Support
+
+For support, questions, or feature requests, please refer to [SUPPORT.md](SUPPORT.md) or open an issue on the [GitHub repository](https://github.com/club-mate/Quiz/issues).
+
+## Acknowledgments
+
+- [Umbrello UML Editor](https://github.com/KDE/umbrello) - Used for creating class diagrams
+- Java Swing Framework - For the UI components
+- Maven - For build automation
